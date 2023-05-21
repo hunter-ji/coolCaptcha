@@ -1,0 +1,14 @@
+.idea
+.vscode
+
+.DS_Store
+
+go.work
+
+vendor/
+output/
+assets/.DB_Store
+
+*.test
+*.exe
+*.png
