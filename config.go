@@ -117,9 +117,9 @@ func New(options ...Options) *Config {
 }
 
 // CustomCode
-// @Description: Users can use their own generated characters as verification codes
+// @Description: Users can use their own generated characters as the verification code, the custom code will be capitalized and then used. Therefore, when validating code, you must use all uppercase code.
 // @receiver c
-// @param code: Customize the generated verification code, but the length limit of 4 digits needs to be met
+// @param code: Customize the generated verification code, but the length limit of 4 digits needs to be met. The custom code will be capitalized and then used. Therefore, when validating code, you must use all uppercase code.
 // @return *Config
 func (c *Config) CustomCode(code string) *Config {
 	c.Code = code

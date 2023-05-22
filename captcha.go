@@ -41,7 +41,7 @@ func lineWidth() float64 {
 // @Description: The set parameters are drawn into an image, then the base64 data and code are returned
 // @receiver c
 // @return imageBase64Data: The base64 data of the graphic captcha can generate an image on the front end
-// @return code Randomly: generated characters that are compared to the verification code entered by the user
+// @return code: Randomly generated characters that are compared to the verification code entered by the user. When custom code is used, uppercase code is output.
 // @return err
 func (c *Config) Generate() (imageBase64Data string, code string, err error) {
 	if len(c.LineHexColors) < 3 {
