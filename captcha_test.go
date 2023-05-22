@@ -22,6 +22,12 @@ func TestCaptcha(t *testing.T) {
 	assert.Error(t, err)
 	assert.Len(t, code, 0)
 
+	// error case
+	// only English letters and numbers can be used
+	_, code, err = New().CustomCode("coo&").Generate()
+	assert.Error(t, err)
+	assert.Len(t, code, 0)
+
 	// success case
 	// call directly, no parameters required
 	_, code, err = New().Generate()

@@ -3,7 +3,6 @@ package coolCaptcha
 import (
 	_ "embed"
 	"errors"
-	"fmt"
 	"math/rand"
 	"strings"
 
@@ -51,10 +50,6 @@ func (c *Config) Generate() (imageBase64Data string, code string, err error) {
 
 	var codeItems []string
 	configCode := strings.TrimSpace(c.Code)
-	if configCode != "" && len(configCode) != charactersLength {
-		err = errors.New(fmt.Sprintf("the expected length of customCode is %d", charactersLength))
-		return
-	}
 
 	// When the user does not use the custom code,
 	// random characters will be generated according to the codeType set by the user.
@@ -64,6 +59,11 @@ func (c *Config) Generate() (imageBase64Data string, code string, err error) {
 			return
 		}
 	} else {
+		err = checkCustomCodeFormat(configCode)
+		if err != nil {
+			return
+		}
+
 		codeItems = strings.Split(strings.ToUpper(configCode), "")
 	}
 
