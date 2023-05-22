@@ -12,7 +12,7 @@
 
 
 
-语言: [简体中文](https://github.com/Kuari/CoolCaptcha/README.zh-CN.md) English
+语言: 简体中文 [English](https://github.com/Kuari/CoolCaptcha)
 
 
 

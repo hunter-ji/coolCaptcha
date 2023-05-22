@@ -10,7 +10,7 @@
 
 
 
-language: 简体中文 [English](https://github.com/Kuari/CoolCaptcha)
+languages: [简体中文](https://github.com/Kuari/coolCaptcha/blob/main/README.zh-CN.md) English
 
 
 
