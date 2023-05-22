@@ -56,8 +56,13 @@ func (c *Config) Generate() (imageBase64Data string, code string, err error) {
 		return
 	}
 
+	// When the user does not use the custom code,
+	// random characters will be generated according to the codeType set by the user.
 	if configCode == "" {
-		codeItems = getRandomCodeItems()
+		codeItems, err = c.getRandomCodeItems()
+		if err != nil {
+			return
+		}
 	} else {
 		codeItems = strings.Split(strings.ToUpper(configCode), "")
 	}

@@ -36,6 +36,7 @@ func TestCaptcha(t *testing.T) {
 		SetLineHexColors([]string{"#f596a1", "#fadeeb", "#f9c975"}),
 		SetWidth(300),
 		SetHeight(120),
+		SetCodeType(MixedCharacters),
 		SetDevMode(true),
 	}
 	_, code, err = New(options...).CustomCode("cool").Generate()

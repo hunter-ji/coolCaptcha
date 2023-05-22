@@ -8,18 +8,11 @@ import (
 	"math/rand"
 )
 
-const (
-	characters       = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	charactersLength = 4
-)
-
-func getRandomCodeItems() (result []string) {
-	for i := 0; i < charactersLength; i++ {
-		result = append(result, string(characters[rand.Intn(len(characters))]))
-	}
-	return
-}
-
+// randomFloat64
+// @Description: Take a random number from the smallest and largest ranges
+// @param min
+// @param max
+// @return float64
 func randomFloat64(min, max float64) float64 {
 	return rand.Float64()*(max-min) + min
 }

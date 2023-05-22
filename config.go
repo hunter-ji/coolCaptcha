@@ -1,5 +1,11 @@
 package coolCaptcha
 
+const (
+	UppercaseEnglishCharacters = "uppercaseEnglishCharacters"
+	NumericCharacters          = "numericCharacters"
+	MixedCharacters            = "mixedCharacters"
+)
+
 type Config struct {
 	Width              int
 	Height             int
@@ -7,6 +13,7 @@ type Config struct {
 	FontHexColor       string
 	LineHexColors      []string
 	Code               string
+	CodeType           string
 	DevMode            bool
 }
 
@@ -16,6 +23,7 @@ var (
 	backgroundHexColor = "#ec6a52"
 	fontHexColor       = "#312E2E"
 	lineHexColors      = []string{"#93aec1", "#9dbdba", "#f8b042", "#f3b7ad"}
+	codeType           = MixedCharacters
 )
 
 type Options func(*Config)
@@ -70,6 +78,16 @@ func SetLineHexColors(lineHexColors []string) Options {
 	}
 }
 
+// SetCodeType
+// @Description: Set the type of random validation characters, which takes effect only if the user is not using custom code
+// @param codeType: Use one of the built-in types: UppercaseEnglishCharacters, NumericCharacters, MixedCharacters
+// @return Options
+func SetCodeType(codeType string) Options {
+	return func(c *Config) {
+		c.CodeType = codeType
+	}
+}
+
 // SetDevMode
 // @Description: In the development mode, the generated image is saved as a local file for easy viewing// @param devMode
 // @return Options
@@ -85,6 +103,7 @@ func defaultConfig(c *Config) *Config {
 	c.BackgroundHexColor = backgroundHexColor
 	c.FontHexColor = fontHexColor
 	c.LineHexColors = lineHexColors
+	c.CodeType = codeType
 	return c
 }
 
