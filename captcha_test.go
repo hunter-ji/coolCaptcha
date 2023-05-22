@@ -39,11 +39,14 @@ func TestCaptcha(t *testing.T) {
 		SetCodeType(MixedCharacters),
 		SetDevMode(true),
 	}
-	_, code, err = New(options...).CustomCode("cool").Generate()
+
+	c := New(options...)
+
+	_, code, err = c.CustomCode("cool").Generate()
 	assert.Nil(t, err)
 	assert.Equal(t, code, "COOL")
 
-	_, code, err = New(options...).Generate()
+	_, code, err = c.Generate()
 	assert.Nil(t, err)
 	assert.Len(t, code, 4)
 }

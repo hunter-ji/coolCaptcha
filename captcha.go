@@ -85,10 +85,11 @@ func (c *Config) Generate() (imageBase64Data string, code string, err error) {
 		if index < charactersLength-1 {
 			colorsLength := len(c.LineHexColors)
 			index := rand.Intn(colorsLength)
+			tmpLineHexColors := c.LineHexColors
 			if index < colorsLength {
-				c.setLine(dc, lineWidth(), c.LineHexColors[index])
-				c.LineHexColors = lo.Filter(c.LineHexColors, func(color string, colorIndex int) bool {
-					return color != c.LineHexColors[index]
+				c.setLine(dc, lineWidth(), tmpLineHexColors[index])
+				tmpLineHexColors = lo.Filter(tmpLineHexColors, func(color string, colorIndex int) bool {
+					return color != tmpLineHexColors[index]
 				})
 			}
 		}

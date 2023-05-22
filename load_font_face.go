@@ -2,6 +2,7 @@ package coolCaptcha
 
 import (
 	_ "embed"
+	"sync"
 
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font"
@@ -12,18 +13,28 @@ var fontFile []byte
 
 const fontPoints = 120
 
+var (
+	loadFontFaceOnce sync.Once
+	fontFace         font.Face
+	loadFontFaceErr  error
+)
+
 // loadFontFace
 // @Description: load custom font file and return font face
 // @return face
 // @return err
-func loadFontFace() (face font.Face, err error) {
-	f, err := truetype.Parse(fontFile)
-	if err != nil {
-		return
-	}
+func loadFontFace() (font.Face, error) {
+	loadFontFaceOnce.Do(func() {
+		f, err := truetype.Parse(fontFile)
+		if err != nil {
+			loadFontFaceErr = err
+			return
+		}
 
-	face = truetype.NewFace(f, &truetype.Options{
-		Size: fontPoints,
+		fontFace = truetype.NewFace(f, &truetype.Options{
+			Size: fontPoints,
+		})
 	})
-	return
+
+	return fontFace, loadFontFaceErr
 }
