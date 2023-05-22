@@ -89,7 +89,7 @@ func SetCodeType(codeType string) Options {
 }
 
 // SetDevMode
-// @Description: In the development mode, the generated image is saved as a local file for easy viewing// @param devMode
+// @Description: In the development mode, the generated image is saved as a local file for easy viewing
 // @return Options
 func SetDevMode(devMode bool) Options {
 	return func(c *Config) {
