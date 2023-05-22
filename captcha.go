@@ -1,18 +1,15 @@
 package coolCaptcha
 
 import (
+	_ "embed"
 	"errors"
+	"fmt"
 	"math/rand"
 	"strings"
 
 	"github.com/fogleman/gg"
 	"github.com/samber/lo"
 )
-
-func (c *Config) CustomCode(code string) *Config {
-	c.Code = code
-	return c
-}
 
 func (c *Config) setLine(dc *gg.Context, lineWidth float64, color string) {
 	width := float64(c.Width)
@@ -33,10 +30,19 @@ func (c *Config) setLine(dc *gg.Context, lineWidth float64, color string) {
 	dc.Stroke()
 }
 
+// lineWidth
+// @Description: set random line width
+// @return float64
 func lineWidth() float64 {
 	return randomFloat64(8, 10)
 }
 
+// Generate
+// @Description: The set parameters are drawn into an image, then the base64 data and code are returned
+// @receiver c
+// @return imageBase64Data: The base64 data of the graphic captcha can generate an image on the front end
+// @return code Randomly: generated characters that are compared to the verification code entered by the user
+// @return err
 func (c *Config) Generate() (imageBase64Data string, code string, err error) {
 	if len(c.LineHexColors) < 3 {
 		err = errors.New("lineHexColors requires at least three values")
@@ -45,8 +51,8 @@ func (c *Config) Generate() (imageBase64Data string, code string, err error) {
 
 	var codeItems []string
 	configCode := strings.TrimSpace(c.Code)
-	if configCode != "" && len(configCode) != 4 {
-		err = errors.New("the expected length of customCode is 4")
+	if configCode != "" && len(configCode) != charactersLength {
+		err = errors.New(fmt.Sprintf("the expected length of customCode is %d", charactersLength))
 		return
 	}
 
@@ -56,20 +62,21 @@ func (c *Config) Generate() (imageBase64Data string, code string, err error) {
 		codeItems = strings.Split(strings.ToUpper(configCode), "")
 	}
 
+	// create a new image
 	dc := gg.NewContext(c.Width, c.Height)
 	dc.SetHexColor(c.BackgroundHexColor)
 	dc.Clear()
 
-	err = dc.LoadFontFace("./blowbrush.ttf", 120)
-	if err != nil {
-		return
-	}
+	// load font
+	face, err := loadFontFace()
+	dc.SetFontFace(face)
 
-	// write text
+	// write random code and set lines
 	for index, text := range codeItems {
 		dc.SetHexColor(c.FontHexColor)
 		dc.DrawStringAnchored(text, float64(50+index*70), 50, randomFloat64(0.3, 0.7), randomFloat64(0.3, 0.7))
 
+		// set 3 lines with random color
 		if index < charactersLength-1 {
 			colorsLength := len(c.LineHexColors)
 			index := rand.Intn(colorsLength)

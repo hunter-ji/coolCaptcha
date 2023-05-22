@@ -8,6 +8,10 @@ import (
 	"github.com/fogleman/gg"
 )
 
+// devModeHandler
+// @Description: In the development mode, the generated image is saved as a local file for easy viewing
+// @receiver c
+// @param dc
 func (c *Config) devModeHandler(dc *gg.Context) {
 	outputFolderPath := "output"
 	if _, err := os.Stat(outputFolderPath); os.IsNotExist(err) {
