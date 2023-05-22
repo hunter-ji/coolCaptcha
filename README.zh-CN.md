@@ -18,11 +18,11 @@
 
 ## 案例
 
-![theme_default_cool](./assets/theme_default_cool.png)![theme_default_random](./assets/theme_default_random.png)
+![theme_default_cool](./assets/theme_default_cool.png) ![theme_default_random](./assets/theme_default_random.png)
 
-![theme1_cool](./assets/theme1_cool.png)![theme1_random](./assets/theme1_random.png)
+![theme1_cool](./assets/theme1_cool.png) ![theme1_random](./assets/theme1_random.png)
 
-![theme2_cool](./assets/theme2_cool.png)![theme2_random](./assets/theme2_random.png)
+![theme2_cool](./assets/theme2_cool.png) ![theme2_random](./assets/theme2_random.png)
 
 
 
