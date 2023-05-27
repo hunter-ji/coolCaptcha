@@ -11,8 +11,6 @@ import (
 //go:embed blowbrush.ttf
 var fontFile []byte
 
-const fontPoints = 120
-
 var (
 	loadFontFaceOnce sync.Once
 	fontFace         font.Face

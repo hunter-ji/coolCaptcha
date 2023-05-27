@@ -1,5 +1,7 @@
 package coolCaptcha
 
+import "errors"
+
 const (
 	UppercaseEnglishCharacters = "uppercaseEnglishCharacters"
 	NumericCharacters          = "numericCharacters"
@@ -124,4 +126,13 @@ func New(options ...Options) *Config {
 func (c *Config) CustomCode(code string) *Config {
 	c.Code = code
 	return c
+}
+
+func (c *Config) checkConfig() (err error) {
+	if len(c.LineHexColors) < 3 {
+		err = errors.New("lineHexColors requires at least three values")
+		return
+	}
+
+	return
 }
