@@ -1,7 +1,3 @@
-// @Title themes.go
-// @Description
-// @Author 红尘 2023/5/27 21:18
-
 package coolCaptcha
 
 type Theme struct {
