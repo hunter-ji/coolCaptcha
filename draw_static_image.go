@@ -27,7 +27,7 @@ func (c *Config) drawStaticImage(codeItems []string) (imageOriginData image.Imag
 	randomColorIndex := rand.Perm(len(c.LineHexColors))
 	for index, character := range codeItems {
 		c.writeText(dc, fontConfig{character, float64(50 + index*70), 50,
-			randomFloat64(0.3, 0.7), randomFloat64(0.3, 0.7), c.FontHexColor})
+			randomFloat64(0.3, 0.7), randomFloat64(0.3, 0.7), c.FontHexColor, true})
 
 		// set 3 lines with random color
 		if index < charactersLength-1 {

@@ -26,6 +26,7 @@ func (c *Config) genLineCoordinates() (line lineConfig) {
 
 	line.Start.X = 0.0
 	line.Start.Y = rand.Float64()*height/2 + height/2
+
 	line.End.X = width
 	line.End.Y = rand.Float64() * height / 2
 
