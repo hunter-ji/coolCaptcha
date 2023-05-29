@@ -3,6 +3,7 @@ package coolCaptcha
 import (
 	"errors"
 	"math/rand"
+	"strings"
 )
 
 const (
@@ -37,5 +38,28 @@ func (c *Config) getRandomCodeItems() (codeItems []string, err error) {
 	for i := 0; i < charactersLength; i++ {
 		codeItems = append(codeItems, string(characters[rand.Intn(len(characters))]))
 	}
+	return
+}
+
+func (c *Config) getLastCode() (code string, codeItems []string, err error) {
+	configCode := strings.TrimSpace(c.Code)
+
+	// When the user does not use the custom code,
+	// random characters will be generated according to the codeType set by the user.
+	if configCode == "" {
+		codeItems, err = c.getRandomCodeItems()
+		if err != nil {
+			return
+		}
+	} else {
+		err = checkCustomCodeFormat(configCode)
+		if err != nil {
+			return
+		}
+
+		codeItems = strings.Split(strings.ToUpper(configCode), "")
+	}
+
+	code = strings.Join(codeItems, "")
 	return
 }

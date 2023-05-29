@@ -11,8 +11,6 @@ import (
 //go:embed blowbrush.ttf
 var fontFile []byte
 
-const fontPoints = 120
-
 var (
 	loadFontFaceOnce sync.Once
 	fontFace         font.Face
@@ -32,7 +30,7 @@ func loadFontFace() (font.Face, error) {
 		}
 
 		fontFace = truetype.NewFace(f, &truetype.Options{
-			Size: fontPoints,
+			Size: float64(fontPoints),
 		})
 	})
 

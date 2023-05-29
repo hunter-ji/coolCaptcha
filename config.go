@@ -1,5 +1,7 @@
 package coolCaptcha
 
+import "errors"
+
 const (
 	UppercaseEnglishCharacters = "uppercaseEnglishCharacters"
 	NumericCharacters          = "numericCharacters"
@@ -24,6 +26,7 @@ var (
 	fontHexColor       = "#312E2E"
 	lineHexColors      = []string{"#93aec1", "#9dbdba", "#f8b042", "#f3b7ad"}
 	codeType           = MixedCharacters
+	fontPoints         = 120
 )
 
 type Options func(*Config)
@@ -113,6 +116,8 @@ func New(options ...Options) *Config {
 	for _, op := range options {
 		op(c)
 	}
+
+	fontPoints = c.Height
 	return c
 }
 
@@ -124,4 +129,13 @@ func New(options ...Options) *Config {
 func (c *Config) CustomCode(code string) *Config {
 	c.Code = code
 	return c
+}
+
+func (c *Config) checkConfig() (err error) {
+	if len(c.LineHexColors) < 3 {
+		err = errors.New("lineHexColors requires at least three values")
+		return
+	}
+
+	return
 }

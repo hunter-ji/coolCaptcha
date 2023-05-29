@@ -6,7 +6,7 @@
 
 ## Info
 
-`CoolCaptcha` is a graphic captcha that I think is cool.The project makes it quick and easy to generate base64 data for captcha images, and the library can be configured to customize the style to match the style of the product.
+`CoolCaptcha` is a graphic captcha that I think is cool.The library makes it quick and easy to generate base64 data for captcha images, and it can be configured to customize the style to match the style of the product.
 
 
 
@@ -46,7 +46,7 @@ import (
 )
 
 func main() {
-	imageBase64Data, code, err := coolCaptcha.New().Generate()
+	imageBase64Data, code, err := coolCaptcha.New().GenerateImage()
 }
 ```
 
@@ -70,7 +70,7 @@ func main() {
 		coolCaptcha.SetDevMode(true),                                            // Set the development module, which is suitable for saving base64 data as an image during development, so that you can easily view the generated effect
 	}
 
-	imageBase64Data, code, err := coolCaptcha.New(options...).Generate()
+	imageBase64Data, code, err := coolCaptcha.New(options...).GenerateImage()
 }
 ```
 
@@ -89,7 +89,7 @@ func main() {
 	// The customCode method only supports 4-character English and numbers,
 	// when passing in English, it will be capitalized and then used, so when using custom characters, the output code is capitalized, please pay attention when verifying
 	// all capitalization is intended to reduce the ambiguity of English letters and numbers
-	imageBase64Data, code, err := coolCaptcha.New().CustomCode("cool").Generate()
+	imageBase64Data, code, err := coolCaptcha.New().CustomCode("cool").GenerateImage()
 }
 ```
 
@@ -113,4 +113,4 @@ And custom font settings will be opened in the future, so please stay tuned.
 
 ### 4. Why was this project developed?
 
-In some specific scenarios, graphics captcha is required, but several problems are found. First of all, most of the current captcha is familiar with each other, I think the user experience is very important, designers and front-end hard work products, it will be strange to have a different style of graphic captcha. Secondly, Go's graphics captcha library is a bit small, and I worked with a Java development engineer before, and I envy the ability to quickly output a graphics captcha. Therefore, it is engaged.
+In some specific scenarios, graphics captcha is required, but several problems are found. First of all, most of the current captcha is similar with each other, I think the user experience is very important, designers and front-end hard work products, it will be strange to have a different style of graphic captcha. Secondly, Go's graphics captcha library is a bit small, and I worked with a Java development engineer before, and I envy the ability to quickly output a graphics captcha. Therefore, it is engaged.

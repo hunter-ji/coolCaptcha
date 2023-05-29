@@ -12,25 +12,25 @@ func TestCaptcha(t *testing.T) {
 	options := []Options{
 		SetLineHexColors([]string{"#f596a1", "#fadeeb"}),
 	}
-	_, code, err := New(options...).Generate()
+	_, code, err := New(options...).GenerateImage()
 	assert.Error(t, err)
 	assert.Len(t, code, 0)
 
 	// error case
 	// the expected length of customCode is 4
-	_, code, err = New().CustomCode("coo").Generate()
+	_, code, err = New().CustomCode("coo").GenerateImage()
 	assert.Error(t, err)
 	assert.Len(t, code, 0)
 
 	// error case
 	// only English letters and numbers can be used
-	_, code, err = New().CustomCode("coo&").Generate()
+	_, code, err = New().CustomCode("coo&").GenerateImage()
 	assert.Error(t, err)
 	assert.Len(t, code, 0)
 
 	// success case
 	// call directly, no parameters required
-	_, code, err = New().Generate()
+	_, code, err = New().GenerateImage()
 	assert.Nil(t, err)
 	assert.Len(t, code, 4)
 
@@ -48,11 +48,11 @@ func TestCaptcha(t *testing.T) {
 
 	c := New(options...)
 
-	_, code, err = c.CustomCode("cool").Generate()
+	_, code, err = c.CustomCode("cool").GenerateImage()
 	assert.Nil(t, err)
 	assert.Equal(t, code, "COOL")
 
-	_, code, err = c.Generate()
+	_, code, err = c.GenerateImage()
 	assert.Nil(t, err)
 	assert.Len(t, code, 4)
 }
