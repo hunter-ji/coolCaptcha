@@ -50,7 +50,7 @@ import (
 )
 
 func main() {
-	imageBase64Data, code, err := coolCaptcha.New().Generate()
+	imageBase64Data, code, err := coolCaptcha.New().GenerateImage()
 }
 ```
 
@@ -74,7 +74,7 @@ func main() {
 		coolCaptcha.SetDevMode(true),                                            // 设置开发模块, 适用于开发时将base64数据保存为图片, 便于查看生成效果
 	}
 
-	imageBase64Data, code, err := coolCaptcha.New(options...).Generate()
+	imageBase64Data, code, err := coolCaptcha.New(options...).GenerateImage()
 }
 ```
 
@@ -93,7 +93,7 @@ func main() {
 	// customCode方法仅支持4位字符的英文和数字,
 	// 当传入英文时, 将会被大写然后再使用, 因此, 当使用自定义字符时, 输出的code都是大写的, 验证的时候请务必注意
 	// 全部大写化是为了小写英文字母与数字的歧义
-	imageBase64Data, code, err := coolCaptcha.New().CustomCode("cool").Generate()
+	imageBase64Data, code, err := coolCaptcha.New().CustomCode("cool").GenerateImage()
 }
 ```
 
@@ -117,4 +117,4 @@ func main() {
 
 ### 4. 为什么要开发这个库？
 
-遇到一些具体场景，需要用到图形验证码，但是发现几个问题。首先是当前的验证码大都样式相识，我觉得用户体验很重要，设计师和前端辛辛苦苦搞的产品，有一个风格不同的图形验证码会很奇怪。其次是go的图形验证码库有点少，之前跟一个java开发工程师合作，很羡慕那种快速输出一个图形验证码的能力。因此，就搞起来了。
+遇到一些具体场景，需要用到图形验证码，但是发现几个问题。首先是当前的验证码大都样式相似，我觉得用户体验很重要，设计师和前端辛辛苦苦搞的产品，有一个风格不同的图形验证码会很奇怪。其次是go的图形验证码库有点少，之前跟一个java开发工程师合作，很羡慕那种快速输出一个图形验证码的能力。因此，就搞起来了。

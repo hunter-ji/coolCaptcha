@@ -2,17 +2,19 @@ package coolCaptcha
 
 import (
 	_ "embed"
-	"fmt"
 	"image"
 	"image/color/palette"
 	"image/draw"
 	"image/gif"
 	"math/rand"
-	"os"
-
-	"github.com/samber/lo"
 )
 
+// GenerateImage
+// @Description: Generate a static image
+// @receiver c
+// @return imageBase64Data
+// @return code
+// @return err
 func (c *Config) GenerateImage() (imageBase64Data string, code string, err error) {
 	err = c.checkConfig()
 	if err != nil {
@@ -36,7 +38,13 @@ func (c *Config) GenerateImage() (imageBase64Data string, code string, err error
 	return
 }
 
-func (c *Config) GenerateGif() (code string, err error) {
+// GenerateGif
+// @Description: Generate gif
+// @receiver c
+// @return gifBase64Data
+// @return code
+// @return err
+func (c *Config) GenerateGif() (gifBase64Data string, code string, err error) {
 	err = c.checkConfig()
 	if err != nil {
 		return
@@ -47,13 +55,11 @@ func (c *Config) GenerateGif() (code string, err error) {
 		return
 	}
 
-	fmt.Println("codeItems: ", codeItems)
-
 	// gen random line config
 	var lineConfigs []lineConfig
 	for i := 0; i < 4; i++ {
 		line := c.genLineCoordinates()
-		line.Width = lineWidth()
+		line.Width = c.lineWidth()
 
 		lineConfigs = append(lineConfigs, line)
 	}
@@ -62,27 +68,21 @@ func (c *Config) GenerateGif() (code string, err error) {
 	for i := 0; i < charactersLength; i++ {
 		textConfig := fontConfig{
 			Character: codeItems[i],
-			X:         float64(50 + i*70),
-			Y:         randomFloat64(30, 70),
+			X:         float64((c.Width / 6) + (i * c.Width / 4)),
+			Y:         randomFloat64(float64(c.Height/4), float64(c.Height/3)),
 			AX:        randomFloat64(0.3, 0.7),
 			AY:        randomFloat64(0.3, 0.7),
-			Color:     "",
-			IsUp:      rand.Intn(2) == 1,
+			Color:     c.FontHexColor,
 		}
 
 		textConfigs = append(textConfigs, textConfig)
 	}
 
-	imageCount := 40
+	imageCount := 12
 
-	// gen random themes
-	randomThemeIndex := rand.Perm(len(themes))
-	for len(randomThemeIndex) < imageCount {
-		randomThemeIndex = append(randomThemeIndex, rand.Perm(len(themes))...)
-	}
+	randomLineIndex := rand.Perm(len(c.LineHexColors))
 
 	var images []image.Image
-	var theme Theme
 	for i := 0; i < imageCount; i++ {
 		for lineIndex, line := range lineConfigs {
 			// start
@@ -94,30 +94,16 @@ func (c *Config) GenerateGif() (code string, err error) {
 			// zigzag
 			lineConfigs[lineIndex].Zigzag.X = genRandomPoint(line.Zigzag.X, 20)
 			lineConfigs[lineIndex].Zigzag.Y = genRandomPoint(line.Zigzag.Y, 20)
+
+			lineConfigs[lineIndex].Color = c.LineHexColors[randomLineIndex[lineIndex]]
 		}
 
 		for textIndex, text := range textConfigs {
 			textConfigs[textIndex].X = genRandomPoint(text.X, 6)
-			textConfigs[textIndex].Y = genRandomPoint(text.Y, 8)
+			textConfigs[textIndex].Y = genRandomPoint(text.Y, 6)
 		}
 
-		if i%4 == 0 {
-			theme = themes[randomThemeIndex[i]]
-			fontColorIndex := rand.Perm(len(theme.FontHexColors))
-			lineColorIndex := rand.Perm(len(theme.LineHexColors))
-
-			for lineIndex := range lineConfigs {
-				lineConfigs[lineIndex].Color = theme.LineHexColors[lineColorIndex[lineIndex]]
-				lineConfigs[lineIndex].Color = themes[0].LineHexColors[lineIndex]
-			}
-
-			for textIndex, text := range textConfigs {
-				// textConfigs[textIndex].Color = theme.FontHexColors[fontColorIndex[textIndex]]
-				text.Color = theme.FontHexColors[fontColorIndex[textIndex]]
-			}
-		}
-
-		originImage, err := c.drawGifImage("#f1f1f2", textConfigs, lineConfigs)
+		originImage, err := c.drawGifImage(c.BackgroundHexColor, textConfigs, lineConfigs)
 		if err != nil {
 			break
 		}
@@ -132,7 +118,7 @@ func (c *Config) GenerateGif() (code string, err error) {
 	outGif := &gif.GIF{
 		LoopCount: 0,
 	}
-	delay := 20
+	delay := 16
 	for _, imageItem := range images {
 		bounds := imageItem.Bounds()
 
@@ -143,19 +129,14 @@ func (c *Config) GenerateGif() (code string, err error) {
 		outGif.Delay = append(outGif.Delay, delay)
 	}
 
-	f, err := os.Create("./out.gif")
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer func() { _ = f.Close() }()
-	err = gif.EncodeAll(f, outGif)
+	gifBase64Data, err = convertGifToBase64(outGif)
 	if err != nil {
 		return
 	}
 
-	return
-}
+	if c.DevMode {
+		c.devModelHandlerForGif(outGif)
+	}
 
-func genRandomPoint(originNum float64, coefficient float64) float64 {
-	return lo.If(rand.Intn(2) == 1, originNum+(coefficient*rand.Float64())).Else(originNum - (coefficient * rand.Float64()))
+	return
 }

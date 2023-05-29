@@ -43,8 +43,8 @@ func (c *Config) genLineCoordinates() (line lineConfig) {
 // lineWidth
 // @Description: set random line width
 // @return float64
-func lineWidth() float64 {
-	return randomFloat64(8, 10)
+func (c *Config) lineWidth() float64 {
+	return randomFloat64(float64(c.Height/12), float64(c.Height/10))
 }
 
 func (c *Config) drawLine(dc *gg.Context, line lineConfig) {
@@ -57,7 +57,7 @@ func (c *Config) drawLine(dc *gg.Context, line lineConfig) {
 
 func (c *Config) setStaticLine(dc *gg.Context, color string) {
 	line := c.genLineCoordinates()
-	line.Width = lineWidth()
+	line.Width = c.lineWidth()
 	line.Color = color
 	c.drawLine(dc, line)
 }

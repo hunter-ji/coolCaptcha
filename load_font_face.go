@@ -30,7 +30,7 @@ func loadFontFace() (font.Face, error) {
 		}
 
 		fontFace = truetype.NewFace(f, &truetype.Options{
-			Size: fontPoints,
+			Size: float64(fontPoints),
 		})
 	})
 

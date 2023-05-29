@@ -26,6 +26,7 @@ var (
 	fontHexColor       = "#312E2E"
 	lineHexColors      = []string{"#93aec1", "#9dbdba", "#f8b042", "#f3b7ad"}
 	codeType           = MixedCharacters
+	fontPoints         = 120
 )
 
 type Options func(*Config)
@@ -115,6 +116,8 @@ func New(options ...Options) *Config {
 	for _, op := range options {
 		op(c)
 	}
+
+	fontPoints = c.Height
 	return c
 }
 

@@ -25,10 +25,5 @@ func (c *Config) drawGifImage(backgroundHexColor string, texts []fontConfig, lin
 	}
 
 	imageOriginData = dc.Image()
-
-	if c.DevMode {
-		c.devModeHandler(dc)
-	}
-
 	return
 }

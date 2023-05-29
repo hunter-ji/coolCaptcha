@@ -4,8 +4,6 @@ import (
 	"github.com/fogleman/gg"
 )
 
-const fontPoints = 120
-
 type fontConfig struct {
 	Character string
 	X         float64
@@ -13,7 +11,6 @@ type fontConfig struct {
 	AX        float64
 	AY        float64
 	Color     string
-	IsUp      bool
 }
 
 func (c *Config) setFontFace(dc *gg.Context) (err error) {
